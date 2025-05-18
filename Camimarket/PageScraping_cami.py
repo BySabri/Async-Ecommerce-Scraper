@@ -52,11 +52,13 @@ class PageScraper:
                     else:
                         price = price_container.text.strip()
 
-                    stock_status = "✓"
+                    stock_status = "In Stock"
                     if container.find_elements(By.CLASS_NAME, "label-outofstock"):
-                        stock_status = "X"
+                        stock_status = "Out of Stock"
 
-                    unique_products.add(f"{product} = {price} ({stock_status})")
+
+                    unique_products.add(f"{product} = {price} |{stock_status}|")
+
                     print(f"{product} = {price} ({stock_status})")
                 except Exception as e:
                     print(f"⚠️ Ürün okunurken hata: {e}")

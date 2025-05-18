@@ -2,6 +2,7 @@ import asyncio
 from ScrapingUtils.scraping_utils import ScrapingUtils
 from PageScraping_elite import PageScraper
 from LinkGetter_elite import LinkGetter
+from ScrapingUtils.save_to_sqlite import save_to_sqlite
 
 class SiteScraper:
     @staticmethod
@@ -19,7 +20,7 @@ class SiteScraper:
                 SiteScraper.scrape_category
             )
 
-        SiteScraper.save_to_text_file(unique_products)
+        save_to_sqlite(unique_products, "elitmuzik.com.tr")
 
     @staticmethod
     async def scrape_category(url, unique_products):
@@ -30,14 +31,6 @@ class SiteScraper:
                     unique_products.add(product)
         except Exception as e:
             print(f"⚠️ {url} adresine bağlanırken hata oluştu: {e}")
-
-
-    @staticmethod
-    def save_to_text_file(products, file_name="products_output_elite_4.txt"):
-        with open(file_name, "w", encoding="utf-8") as file:
-            for product in products:
-                file.write(f"{product}\n")
-        print(f"Ürünler başarıyla {file_name} dosyasına kaydedildi.")
 
 if __name__ == "__main__":
     asyncio.run(SiteScraper.huge_scraper())

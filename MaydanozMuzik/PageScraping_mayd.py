@@ -18,29 +18,25 @@ class PageScraper:
 
                     product_containers = soup.find_all("div", class_="product-detail-card")
                     for container in product_containers:
-                        # Marka adını çek
+
                         brand = container.find("a", class_="brand-title")
                         brand_name = brand.get_text(strip=True) if brand else "Marka bilgisi yok"
 
-                        # Ürün adını çek
                         product = container.find("a", class_="product-title")
                         product_name = product.get_text(strip=True) if product else "Ürün adı yok"
 
-                        # Fiyatı çek
                         price = container.find("span", class_="product-price")
                         product_price = price.get_text(strip=True) + " TL" if price else "Fiyat bilgisi yok"
 
-                        # Stok durumunu kontrol et
-                        stock_status = "✓"
+                        stock_status = "In Stock"
                         out_of_stock = soup.find("span", class_="out-of-stock")
                         if out_of_stock:
-                            stock_status = "X"
+                            stock_status = "Out of Stock"
 
-                        # Veriyi set'e ekle
-                        unique_products.add(f"{brand_name} {product_name} = {product_price} ({stock_status})")
+                        unique_products.add(f"{brand_name} {product_name} = {product_price} |{stock_status}|")
 
-                    return unique_products  # Set olarak benzersiz ürünleri döndür
+                    return unique_products
 
                 else:
                     print(f"Sayfa çekilemedi! HTTP Kod: {response.status}")
-                    return set()  # Boş set döndür
+                    return set()

@@ -44,11 +44,11 @@ class PageScraper:
                 price = container.find("span", class_="discountPriceSpan")
                 product_price = price.get_text(strip=True) if price else "Fiyat bilgisi yok"
 
-                stock_status = "✓"
+                stock_status = "In Stock"
                 out_of_stock = container.find("a", class_="TukendiIco")
                 if out_of_stock:
-                    stock_status = "X"
+                    stock_status = "Out of Stock"
 
-                unique_products.add(f"{product_name} = {product_price} ({stock_status})")
+                unique_products.add(f"{product_name} = {product_price} |{stock_status}|")
 
             return unique_products

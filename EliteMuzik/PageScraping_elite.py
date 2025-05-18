@@ -25,11 +25,12 @@ class PageScraper:
                         price = container.find("span", class_="product-price")
                         product_price = price.get_text(strip=True) + " TL" if price else "Fiyat bilgisi yok"
 
-                        stock_status = "✓"
+                        stock_status = "In Stock"
                         out_of_stock = soup.find("span", class_="out-of-stock")
                         if out_of_stock:
-                            stock_status = "X"
-                        unique_products.add(f"{product_name} = {product_price} ({stock_status})")
+                            stock_status = "Out of Stock"
+
+                        unique_products.add(f"{product_name} = {product_price} |{stock_status}|")
 
                     return unique_products
 

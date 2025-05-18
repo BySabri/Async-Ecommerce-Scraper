@@ -31,17 +31,17 @@ class PageScraper:
                                 product_price = price.get_text(strip=True) + " TL" if price else "Fiyat bilgisi yok"
 
 
-                                stock_status = "✓"
+                                stock_status = "In Stock"
                                 out_of_stock = soup.find("a", class_="remind-me-button")
                                 if out_of_stock:
-                                    stock_status = "X"
+                                    stock_status = "Out of Stock"
 
-                                unique_products.add(f"{product_name} = {product_price} ({stock_status})")
+                                unique_products.add(f"{product_name} = {product_price} |{stock_status}|")
 
                             return unique_products
 
                         elif response.status == 429:
-                            wait_time = 2 ** attempt  # 2, 4, 8, 16... şeklinde artan bekleme
+                            wait_time = 2 ** attempt
                             print(f"⚠️ 429 Too Many Requests. {wait_time} saniye bekleniyor... ({attempt+1}. deneme)")
                             await asyncio.sleep(wait_time)
 
